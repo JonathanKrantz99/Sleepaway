@@ -6,7 +6,7 @@ namespace CamperSleepaway
     {
         static void Main(string[] args)
         {
-            
+
         }
     }
 }
