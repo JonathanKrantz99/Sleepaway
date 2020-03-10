@@ -6,7 +6,7 @@ namespace CamperSleepaway.Daniel
 {
     public partial class Program
     {
-        public void DanielTest()
+        public static void DanielTest()
         {
 
         }
