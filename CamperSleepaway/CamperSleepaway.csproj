@@ -10,8 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Jonathan\" />
-    <Folder Include="Daniel\" />
     <Folder Include="Linus\" />
   </ItemGroup>
 
