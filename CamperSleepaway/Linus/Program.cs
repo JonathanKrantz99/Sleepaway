@@ -6,5 +6,8 @@ namespace CamperSleepaway.Linus
 {
     public partial class Program
     {
+        public static void LinusTest(){
+        
+        }
     }
 }

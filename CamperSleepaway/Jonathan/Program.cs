@@ -6,7 +6,7 @@ namespace CamperSleepaway.Jonathan
 {
     public partial class Program
     {
-        public void JonathanTest()
+        public static void JonathanTest()
         {
 
         }
