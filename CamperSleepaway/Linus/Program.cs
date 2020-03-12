@@ -6,9 +6,8 @@ namespace CamperSleepaway.Linus
 {
     public partial class Program
     {
-        internal static void LinusTest()
-        {
-            throw new NotImplementedException();
+        public static void LinusTest(){
+        
         }
     }
 }

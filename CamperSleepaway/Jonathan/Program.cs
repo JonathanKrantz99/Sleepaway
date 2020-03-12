@@ -6,10 +6,9 @@ namespace CamperSleepaway.Jonathan
 {
     public partial class Program
     {
-        
-        internal static void JonathanTest()
+        public static void JonathanTest()
         {
-            throw new NotImplementedException();
+
         }
     }
 }
