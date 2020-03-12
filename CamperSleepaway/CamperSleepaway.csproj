@@ -13,4 +13,8 @@
     <Folder Include="Linus\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MenuLibrary\MenuLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

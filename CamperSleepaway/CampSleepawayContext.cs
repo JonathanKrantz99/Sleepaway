@@ -32,15 +32,19 @@ namespace CamperSleepaway
                 .HasMany(c => c.Campers)
                 .WithOptional(ca => ca.Cabin);
 
-
+            //modelBuilder.Entity<NextOfKin>()
+            //    .HasMany<Camper>(s => s.Campers)
+            //    .WithMany(c => c.NextOfKins)
+            //    .Map(cs =>
+            //    {
+            //        cs.MapLeftKey("NextOfKinId");
+            //        cs.MapRightKey("CamperId");
+            //        cs.ToTable("NextOfKinCampers");
+            //    });
 
             modelBuilder.Entity<Cabin>()
                 .HasOptional(x => x.Counselor)
                 .WithOptionalPrincipal(co => co.Cabin);
-            
-
-
-
             //modelBuilder.Configurations.Add(new Class1Map());
 
             //modelBuilder.Entity<Country>()
