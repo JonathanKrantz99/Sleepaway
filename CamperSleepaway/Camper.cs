@@ -12,8 +12,8 @@ namespace CamperSleepaway
         public string LastName { get; set; }
         public List<NextOfKin> NextOfKins { get; set; }
 
-        [ForeignKey("Cabin")]
-        public int CabinId { get; set; }
+        //[ForeignKey("Cabin")]
+        //public int CabinId { get; set; }
         public Cabin Cabin { get; set; }
     }
 }

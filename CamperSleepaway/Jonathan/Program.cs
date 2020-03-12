@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CamperSleepaway.Linus
+namespace CamperSleepaway.Jonathan
 {
     public partial class Program
     {
-        internal static void LinusTest()
+        
+        internal static void JonathanTest()
         {
             throw new NotImplementedException();
         }
