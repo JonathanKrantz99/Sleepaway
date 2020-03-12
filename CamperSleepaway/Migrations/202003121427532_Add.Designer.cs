@@ -7,13 +7,13 @@ namespace CamperSleepaway.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class AddCampers : IMigrationMetadata
+    public sealed partial class Add : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddCampers));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add));
         
         string IMigrationMetadata.Id
         {
-            get { return "202003121254067_AddCampers"; }
+            get { return "202003121427532_Add"; }
         }
         
         string IMigrationMetadata.Source

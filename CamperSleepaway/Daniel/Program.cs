@@ -12,8 +12,15 @@ namespace CamperSleepaway.Daniel
 
             using (CampSleepawayContext context = new CampSleepawayContext())
             {
+                //AddOneCouncelour(context);
 
-                AddOneCabinWithCampers(context);
+                //AddOneCabin(context);
+                //AddOneCabinWithCampers(context);
+                //AddOneNextOfKin(context);
+                AddOneCamper(context);
+
+
+                
                 //Console.WriteLine($"title {cabin.Name}, id: {cabin.CabinId}");
 
             }
@@ -51,6 +58,20 @@ namespace CamperSleepaway.Daniel
         private static void AddOneCamper(CampSleepawayContext context)
         {
             context.Campers.Add(new Camper { FirstName = "Linus", LastName = "Örn" });
+            context.SaveChanges();
+
+        }
+
+
+        private static void AddOneCouncelour(CampSleepawayContext context)
+        {
+
+            Counselor counselor = new Counselor { FirstName = "Paul" };
+            
+            context.Counselors.Add(counselor);
+
+
+
             context.SaveChanges();
 
         }

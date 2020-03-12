@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace CamperSleepaway
     {
         public DbSet<Camper> Campers { get; set; }
         public DbSet<Cabin> Cabins { get; set; }
-        //public DbSet<Counselor> Counselors { get; set; }
+        public DbSet<Counselor> Counselors { get; set; }
         public DbSet<NextOfKin> NextOfKins { get; set; }
 
 
@@ -19,7 +20,9 @@ namespace CamperSleepaway
             //    .Property(u => u.CamperId)
             //    .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema
             //    .DatabaseGeneratedOption.Identity);
-
+            modelBuilder.Entity<Counselor>()
+         .Property(a => a.CounselorId)
+         .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             //modelBuilder.Entity<Cabin>()
             //    .HasOptional(c => c.Counselor)
@@ -31,6 +34,10 @@ namespace CamperSleepaway
 
 
 
+            modelBuilder.Entity<Cabin>()
+                .HasOptional(x => x.Counselor)
+                .WithOptionalPrincipal(co => co.Cabin);
+            
 
 
 
