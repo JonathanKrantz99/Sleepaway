@@ -18,13 +18,16 @@ namespace CamperSleepaway.Daniel
 
                 //AddOneCabin(context);
                 //AddOneCabinWithCampers(context);
+
+                //AddCampersToCabin(context);
+
                 //AddOneNextOfKin(context);
                 //AddOneCamper(context);
                 //AddOneNextOfKinToCamper(context);
                 //AddOneCamper(context);
                 DanielsMenu();
 
-                
+
                 //Console.WriteLine($"title {cabin.Name}, id: {cabin.CabinId}");
 
             }
@@ -35,7 +38,8 @@ namespace CamperSleepaway.Daniel
             CheckOut, 
             CheckCampersCabin, 
             CheckCampersCouncelour, 
-            CabinInfo 
+            CabinInfo,
+            NewCabin
         };
         public static void DanielsMenu()
         {
@@ -45,7 +49,8 @@ namespace CamperSleepaway.Daniel
                 "Hämta ut kampare",
                 "Se kampares lägerhus",
                 "Se kampares gruppledare",
-                "Se info om lägerhus"
+                "Se info om lägerhus",
+                "Skapa ny stuga med lägerledare"
             };
             bool running = true;
             while (running)
@@ -56,6 +61,7 @@ namespace CamperSleepaway.Daniel
                 if (choice == (int)Choices.CheckCampersCouncelour) CheckCampersCouncelour();
                 if (choice == (int)Choices.CheckCampersCabin) CheckCampersCabin();
                 if (choice == (int)Choices.CabinInfo) CabinInfo();
+                if (choice == (int)Choices.NewCabin) CreateNewCabinAndCounselour();
             }
 
 
@@ -122,9 +128,47 @@ namespace CamperSleepaway.Daniel
         {
             using (CampSleepawayContext context = new CampSleepawayContext())
             {
+                //======
+                // Ask for Next of kin info
+                string bigfirstname = MenuUtils.AskForString("Vad heter målsmannen i förnamn?");
+                string biglastname = MenuUtils.AskForString("Vad heter målsmannen i efternamn?");
+                // Query data from next of kin
+
+                NextOfKin nextOfKin = (from nextOfKins in context.NextOfKins
+                                       where nextOfKins.FirstName == bigfirstname
+                                       && nextOfKins.LastName == biglastname
+                                       select nextOfKins).FirstOrDefault();
+                context.Entry(nextOfKin).Collection(c => c.Campers).Load();
+
+                int campersCount = nextOfKin.Campers.Count();
+                string[] campersFirstName = new string[campersCount];
+                string[] campersLastName = new string[campersCount];
+                int[] camperIds = new int[campersCount];
+                int i = 0;
+                foreach (var campersInQuery in nextOfKin.Campers)
+                {
+                    campersFirstName[i] = campersInQuery.FirstName;
+                    campersLastName[i] = campersInQuery.LastName;
+                    camperIds[i] = campersInQuery.CamperId;
+                    i++;
+
+                }
+                // Checks out and prints all the campers of the next of kin.
+                int choice = MenuUtils.AlternetivesMenu(0, campersFirstName, "Vilken unge vill du hämta?");
+
+                //var camperQuery = (from camper in context.Campers
+                //                   where camper.LastName == campersLastName[choice] &&
+                //                   camper.FirstName == campersFirstName[choice]
+                //                   select camper.Cabin).ToList();
+                string camperFirstName = campersFirstName[choice];
+                string camperLastName = campersLastName[choice];
+                int camperId = camperIds[choice];
+                //======
+
+
                 string camperName = MenuUtils.AskForString("Vad heter parveln i förnamn?");
                 var camperQuery = (from camper in context.Campers
-                                  where camper.FirstName == camperName
+                                  where camper.CamperId == camperId
                                   select camper.Cabin).ToList();
                 
 
@@ -158,9 +202,46 @@ namespace CamperSleepaway.Daniel
         {
             using (CampSleepawayContext context = new CampSleepawayContext())
             {
+                //======
+                // Ask for Next of kin info
+                string bigfirstname = MenuUtils.AskForString("Vad heter målsmannen i förnamn?");
+                string biglastname = MenuUtils.AskForString("Vad heter målsmannen i efternamn?");
+                // Query data from next of kin
+
+                NextOfKin nextOfKin = (from nextOfKins in context.NextOfKins
+                                       where nextOfKins.FirstName == bigfirstname
+                                       && nextOfKins.LastName == biglastname
+                                       select nextOfKins).FirstOrDefault();
+                context.Entry(nextOfKin).Collection(c => c.Campers).Load();
+
+                int campersCount = nextOfKin.Campers.Count();
+                string[] campersFirstName = new string[campersCount];
+                string[] campersLastName = new string[campersCount];
+                int[] camperIds = new int[campersCount];
+                int i = 0;
+                foreach (var campersInQuery in nextOfKin.Campers)
+                {
+                    campersFirstName[i] = campersInQuery.FirstName;
+                    campersLastName[i] = campersInQuery.LastName;
+                    camperIds[i] = campersInQuery.CamperId;
+                    i++;
+
+                }
+                // Checks out and prints all the campers of the next of kin.
+                int choice = MenuUtils.AlternetivesMenu(0, campersFirstName, "Vilken unge vill du hämta?");
+
+                //var camperQuery = (from camper in context.Campers
+                //                   where camper.LastName == campersLastName[choice] &&
+                //                   camper.FirstName == campersFirstName[choice]
+                //                   select camper.Cabin).ToList();
+                string camperFirstName = campersFirstName[choice];
+                string camperLastName = campersLastName[choice];
+                int camperId = camperIds[choice];
+                //======
+
                 string camperName = MenuUtils.AskForString("Vad heter parveln i förnamn?");
                 var camperQuery = (from camper in context.Campers
-                                  where camper.FirstName == camperName
+                                  where camper.CamperId == camperId
                                   select camper.Cabin).ToList();
                 
 
@@ -184,19 +265,57 @@ namespace CamperSleepaway.Daniel
         {
             using (CampSleepawayContext context = new CampSleepawayContext())
             {
+                // Ask for Next of kin info
+                string bigfirstname = MenuUtils.AskForString("Vad heter målsmannen i förnamn?");
+                string biglastname = MenuUtils.AskForString("Vad heter målsmannen i efternamn?");
+                // Query data from next of kin
 
-                string firstname = MenuUtils.AskForString("Vad heter kamparen i förnamn?");
-                string lastname = MenuUtils.AskForString("Vad heter kamparen i efternamn?");
-                var camperQuery = (from camper in context.Campers
-                                   where camper.FirstName == firstname &&
-                                   camper.FirstName == lastname
-                                   select camper.Cabin).ToList();
-                context.Campers.RemoveRange(context.Campers.Where(c => c.FirstName == firstname && c.LastName == lastname));
+                NextOfKin nextOfKin = (from nextOfKins in context.NextOfKins
+                                         where nextOfKins.FirstName == bigfirstname
+                                         && nextOfKins.LastName == biglastname
+                                         select nextOfKins).FirstOrDefault();
+                context.Entry(nextOfKin).Collection(c => c.Campers).Load();
+
+                int campersCount = nextOfKin.Campers.Count();
+                string[] campersFirstName = new string[campersCount];
+                string[] campersLastName = new string[campersCount];
+                int[] camperIds = new int[campersCount];
+                int i = 0;
+                foreach (var campersInQuery in nextOfKin.Campers)
+                {
+                    campersFirstName[i] = campersInQuery.FirstName;
+                    campersLastName[i] = campersInQuery.LastName;
+                    camperIds[i] = campersInQuery.CamperId;
+                    i++;
+                
+                }
+                // Checks out and prints all the campers of the next of kin.
+                int choice = MenuUtils.AlternetivesMenu(0, campersFirstName, "Vilken unge vill du hämta?");
+
+                //var camperQuery = (from camper in context.Campers
+                //                   where camper.LastName == campersLastName[choice] &&
+                //                   camper.FirstName == campersFirstName[choice]
+                //                   select camper.Cabin).ToList();
+                
+                int camperId = camperIds[choice];
+                context.Campers.RemoveRange(context.Campers.Where(c => c.CamperId == camperId));
+                context.SaveChanges();
 
             }
 
         }
 
+        private static bool ContainsNextOfKin(NextOfKin nextOfKin, List<NextOfKin> nextOfKins)
+        {
+            foreach (NextOfKin kin in nextOfKins)
+            {
+                if (kin.NextOfKinId == nextOfKin.NextOfKinId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         private static void CheckInCamper()
         {
             using(CampSleepawayContext context = new CampSleepawayContext())
@@ -224,27 +343,91 @@ namespace CamperSleepaway.Daniel
                     Campers = family
                 };
                 context.NextOfKins.Add(nextOfKin);
+                // Let user choose cabin for all campers.
+                bool chooseCabin = MenuUtils.AlternetivesMenu(1, new string[] { "Ja, nu på en gång.", "Nej, det kan göras senare." }, "Vill du välja stugor själv?") == 0 ? true : false;
+                if (chooseCabin)
+                {
+                    foreach (var camper in nextOfKin.Campers)
+                    {
+                        var cabins = (from emptyCabins in context.Cabins
+                                     where emptyCabins.Campers.Count <= 3
+                                     select emptyCabins).ToList();
+                        // Will query for all empty cabins
+                        string[] cabinText = new string[cabins.Count()];
+                        int y = 0;
+                        foreach (var cabin in cabins)
+                        {
+                            context.Entry(cabin).Collection(c => c.Campers).Load();
+                            cabinText[y] = String.Format($"{cabin.Name}: {3 - cabin.Campers.Count}");
+                        }
+                        // Let user choose from cabins, and see remaining spots.
+
+                        int cabinChoice = MenuUtils.AlternetivesMenu(0, cabinText, "välj cabin för " + camper.FirstName + ".");
+                        y++;
+                        camper.Cabin = cabins[cabinChoice];
+                        cabins[cabinChoice].Campers.Add(camper);
+
+
+                        // Loop until all campers has a cabin.
+                    }
+                }
+                context.SaveChanges();
+            }
+        }
+        private static void CreateNewCabinAndCounselour()
+        {
+            using(CampSleepawayContext context = new CampSleepawayContext())
+            {
+                string bigfirstname = MenuUtils.AskForString("Vad heter Lägerledaren i förnamn?");
+                string biglastname = MenuUtils.AskForString("Vad heter Lägerledaren i efternamn?");
+
+
+                
+                string cabinName = MenuUtils.AskForString("Vad ska kabinen heta?");
+                Counselor counselor = new Counselor { FirstName = bigfirstname, LastName = biglastname };
+
+                Cabin cabin = new Cabin { Name = cabinName, Counselor = counselor };
+
+                context.Cabins.Add(cabin);
+
                 context.SaveChanges();
             }
         }
 
         private static void AddOneCabin(CampSleepawayContext context)
         {
-            Cabin cabin = new Cabin { Name = "Area 51" };
+            Cabin cabin = new Cabin { Name = "Moonbase" };
             context.Cabins.Add(cabin);
             context.SaveChanges();
         }
         private static void AddOneCabinWithCampers(CampSleepawayContext context)
         {
+            NextOfKin next = context.NextOfKins.Find(1);
+            List<NextOfKin> nextOfKins = new List<NextOfKin>();
+            nextOfKins.Add(next);
 
             List<Camper> campers = new List<Camper>
                 {
-                    new Camper { FirstName = "Daniel", LastName = "Anderson" },
-                    new Camper { FirstName = "Jonathan", LastName = "Krantz" },
-                    new Camper { FirstName = "Riche", LastName = "Rich" }
+                    new Camper { FirstName = "Karl", LastName = "Ekman", NextOfKins = nextOfKins  },
+                    new Camper { FirstName = "Berit", LastName = "Ekman" ,NextOfKins = nextOfKins},
+                    
+                    new Camper { FirstName = "Lisa", LastName = "Ekdhal", NextOfKins = nextOfKins }
                 };
-            Cabin cabin = new Cabin { Name = "Area 51", Campers = campers };
+            Cabin cabin = context.Cabins.Find(1);
+            cabin.Counselor = context.Counselors.Find(2);
             context.Cabins.Add(cabin);
+            context.SaveChanges();
+        }
+        
+        private static void AddCampersToCabin(CampSleepawayContext context)
+        {
+            Cabin cabin = context.Cabins.Find(5);
+            Camper camper = new Camper { FirstName = "Ante", LastName = "Berg" };
+            context.Entry(cabin).Collection(c => c.Campers).Load();
+
+            context.Campers.Add(camper);
+            cabin.Campers.Add(camper);
+
             context.SaveChanges();
         }
 
@@ -282,9 +465,14 @@ namespace CamperSleepaway.Daniel
         private static void AddOneCouncelour(CampSleepawayContext context)
         {
 
-            Counselor counselor = new Counselor { FirstName = "Paul" };
+            Counselor counselor = new Counselor { FirstName = "Gösta Ekman" };
             
             context.Counselors.Add(counselor);
+
+            Cabin rock = context.Cabins.Find(1);
+
+            rock.Counselor = counselor;
+            //moonbase.Counselor = counselor;
 
 
 

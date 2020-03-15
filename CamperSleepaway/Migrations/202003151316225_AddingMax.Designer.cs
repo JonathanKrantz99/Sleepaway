@@ -7,13 +7,13 @@ namespace CamperSleepaway.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class Add : IMigrationMetadata
+    public sealed partial class AddingMax : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Add));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddingMax));
         
         string IMigrationMetadata.Id
         {
-            get { return "202003121427532_Add"; }
+            get { return "202003151316225_AddingMax"; }
         }
         
         string IMigrationMetadata.Source

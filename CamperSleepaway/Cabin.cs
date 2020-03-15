@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace CamperSleepaway
@@ -8,6 +9,7 @@ namespace CamperSleepaway
     {
         public int CabinId { get; set; }
         public string Name { get; set; }
+        [MaxLength(3)]
         public List<Camper> Campers { get; set; }
         public Counselor Counselor { get; set; }
     }

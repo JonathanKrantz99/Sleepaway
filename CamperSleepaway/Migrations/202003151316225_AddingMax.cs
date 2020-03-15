@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddNextOfKinRequirerment : DbMigration
+    public partial class AddingMax : DbMigration
     {
         public override void Up()
         {

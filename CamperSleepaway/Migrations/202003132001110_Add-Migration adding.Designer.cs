@@ -7,13 +7,13 @@ namespace CamperSleepaway.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class AddNextOfKinRequirerment : IMigrationMetadata
+    public sealed partial class AddMigrationadding : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddNextOfKinRequirerment));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddMigrationadding));
         
         string IMigrationMetadata.Id
         {
-            get { return "202003121623109_AddNextOfKinRequirerment"; }
+            get { return "202003132001110_Add-Migration adding"; }
         }
         
         string IMigrationMetadata.Source
